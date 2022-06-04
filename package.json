@@ -1,0 +1,13 @@
+{
+  "name": "mine-sweeper",
+  "version": "1.0.0",
+  "description": "10 mines 10 x 10 grid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
