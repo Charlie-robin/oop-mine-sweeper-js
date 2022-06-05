@@ -1,8 +1,8 @@
 class Cell {
   constructor(id, surroundingCells) {
-    this._value = 0;
     this._id = id;
     this._surroundingCells = surroundingCells;
+    this._value = 0;
     this._isBomb = false;
     this._isHidden = true;
     this._cellHTML = document.createElement("div");
@@ -22,8 +22,12 @@ class Cell {
     return this._cellHTML;
   }
 
-  get surroundingCells() {
+  getSurroundingCells() {
     return this._surroundingCells.surroundingCells;
+  }
+
+  get surroundingCells() {
+    return this._surroundingCells;
   }
 
   get isBomb() {
@@ -44,12 +48,18 @@ class Cell {
     if (!this._isBomb) {
       this._value++;
     }
-    this.display();
+    // this.display();
   }
 
   display() {
     this._cellHTML.innerHTML = this._value;
     this._isHidden = true;
+
+    if (this._value === 0) {
+      this._cellHTML.style.backgroundColor = "unset";
+    } else if (this._value > 0) {
+      this._cellHTML.style.backgroundColor = "blue";
+    }
   }
 
   static createCellId(row, col) {
