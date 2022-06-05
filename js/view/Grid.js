@@ -1,5 +1,5 @@
-import Cell from "./Cell.js";
-import SurroundingCells from "./SurroundingCells.js";
+import Cell from "../model/Cell.js";
+import SurroundingCells from "../model/SurroundingCells.js";
 
 class Grid {
   constructor(mineCount, gridSize, gridHTML) {
@@ -47,29 +47,34 @@ class Grid {
 
   displayCell(id) {
     const cell = this._cellDictionary[id];
-    let ids = new Set([...cell.getSurroundingCells()]);
 
     if (cell.isBomb) {
       alert("BOMB");
       return;
     }
 
-    cell.display();
+    cell.handleDisplay();
 
     if (cell.value > 0) {
       return;
     }
 
+    this.displaySurroundingCells(cell);
+  }
+
+  displaySurroundingCells(cell) {
+    let ids = new Set([...cell.getSurroundingCells()]);
+
     ids.forEach((id, _, array) => {
       const cell = this._cellDictionary[id];
 
       if (cell.value === 0 && cell.isHidden) {
-        cell.display();
+        cell.handleDisplay();
         cell.surroundingCells.cardinalCells.forEach(cellId => array.add(cellId));
       }
 
       if (cell.value > 0) {
-        cell.display();
+        cell.handleDisplay();
       }
     });
   }

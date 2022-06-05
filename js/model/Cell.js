@@ -1,3 +1,5 @@
+import Colors from "./Colors.js";
+
 class Cell {
   constructor(id, surroundingCells) {
     this._id = id;
@@ -41,7 +43,7 @@ class Cell {
   setMine() {
     this._isBomb = true;
     this._value = "bomb";
-    this.display();
+    this.handleDisplay();
   }
 
   incrementValue() {
@@ -51,14 +53,37 @@ class Cell {
     // this.display();
   }
 
-  display() {
-    this._cellHTML.innerHTML = this._value;
+  handleDisplay() {
     this._isHidden = true;
+    if (this.isBomb) {
+      this.setBomb();
+    } else if (this._value !== 0) {
+      this._cellHTML.innerHTML = this._value;
+    }
+    this.setBackgroundColor();
+  }
 
-    if (this._value === 0) {
-      this._cellHTML.style.backgroundColor = "unset";
-    } else if (this._value > 0) {
-      this._cellHTML.style.backgroundColor = "blue";
+  setBomb() {
+    const img = document.createElement("img");
+    img.src = "../../assets/mine.svg";
+    this._cellHTML.appendChild(img);
+  }
+
+  setBackgroundColor() {
+    switch (this._value) {
+      case 1:
+        this._cellHTML.style.backgroundColor = Colors.LOW;
+        break;
+      case 2:
+        this._cellHTML.style.backgroundColor = Colors.MEDIUM;
+        break;
+      case 3:
+      case "bomb":
+        this._cellHTML.style.backgroundColor = Colors.HIGH;
+        break;
+      default:
+        this._cellHTML.style.backgroundColor = Colors.EMPTY;
+        break;
     }
   }
 

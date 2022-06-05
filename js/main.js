@@ -1,4 +1,4 @@
-import Grid from "./Grid.js";
+import Grid from "./view/Grid.js";
 
 const mines = 10;
 const gridSize = 3;
@@ -10,5 +10,3 @@ document.querySelector(".grid").addEventListener("click", event => {
     grid.displayCell(event.target.id);
   }
 });
-
-console.log(grid);
