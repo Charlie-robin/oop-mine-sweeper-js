@@ -1,4 +1,5 @@
 import Cell from "./Cell.js";
+import SurroundingCells from "./SurroundingCells.js";
 
 class Grid {
   constructor(mineCount, gridSize, gridHTML) {
@@ -17,8 +18,8 @@ class Grid {
   generateGrid() {
     for (let index = 0; index < this._gridSize; index++) {
       for (let inner = 0; inner < this._gridSize; inner++) {
-        const id = this.getId(index, inner);
-        const surroundingCells = this.generateSurroundingCells(index, inner);
+        const id = Cell.createCellId(index, inner);
+        const surroundingCells = new SurroundingCells(index, inner, this._gridSize);
         const cell = new Cell(id, surroundingCells);
         this._cellDictionary[id] = cell;
         this._gridHTML.appendChild(cell.cellHTML);
@@ -27,47 +28,19 @@ class Grid {
     this.generateMines();
   }
 
-  getId(row, col) {
-    return `row:${row}-col:${col}`;
-  }
-
   getRandomRowCol() {
     return [Math.floor(Math.random() * this._gridSize), Math.floor(Math.random() * this._gridSize)];
-  }
-
-  generateSurroundingCells(index, inner) {
-    const surroundingPositions = [
-      [index - 1, inner - 1],
-      [index - 1, inner],
-      [index - 1, inner + 1],
-      [index, inner - 1],
-      [index, inner + 1],
-      [index + 1, inner - 1],
-      [index + 1, inner],
-      [index + 1, inner + 1],
-    ];
-
-    const surroundCells = surroundingPositions.reduce((acc, position) => {
-      const [row, col] = position;
-
-      if (row >= 0 && row < this._gridSize && col >= 0 && col < this._gridSize) {
-        acc.push(this.getId(row, col));
-      }
-
-      return acc;
-    }, []);
-
-    return surroundCells;
   }
 
   generateMines() {
     while (this._mineLocations.size < this._mineCount) {
       const [row, col] = this.getRandomRowCol();
-      const id = this.getId(row, col);
+      const id = Cell.createCellId(row, col);
       if (!this._mineLocations.has(id)) {
         this._mineLocations.add(id);
         const cell = this._cellDictionary[id];
         cell.setMine();
+        console.log(cell);
         cell.surroundingCells.forEach(cellId => this._cellDictionary[cellId].incrementValue());
       }
     }
@@ -81,13 +54,14 @@ class Grid {
     if (cell.isBomb) {
       alert("BOMB");
     }
+
     cell.display();
 
     ids.forEach((id, _, array) => {
       const cell = this._cellDictionary[id];
       if (cell.value === 0 && cell.isHidden) {
         cell.display();
-        cell.surroundingCells.forEach(el => array.add(el))
+        cell.surroundingCells.forEach(el => array.add(el));
       }
     });
   }

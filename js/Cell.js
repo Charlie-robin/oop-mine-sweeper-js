@@ -23,7 +23,7 @@ class Cell {
   }
 
   get surroundingCells() {
-    return this._surroundingCells;
+    return this._surroundingCells.surroundingCells;
   }
 
   get isBomb() {
@@ -50,6 +50,10 @@ class Cell {
   display() {
     this._cellHTML.innerHTML = this._value;
     this._isHidden = true;
+  }
+
+  static createCellId(row, col) {
+    return `row:${row}-col:${col}`;
   }
 }
 
