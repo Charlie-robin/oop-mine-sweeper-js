@@ -43,7 +43,6 @@ class Cell {
   setMine() {
     this._isBomb = true;
     this._value = "bomb";
-    this.handleDisplay();
   }
 
   incrementValue() {

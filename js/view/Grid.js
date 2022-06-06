@@ -40,29 +40,20 @@ class Grid {
         this._mineLocations.add(id);
         const cell = this._cellDictionary[id];
         cell.setMine();
-        cell.getSurroundingCells().forEach(cellId => this._cellDictionary[cellId].incrementValue());
+        this.handleIncrementCells(cell);
       }
     }
   }
 
-  displayCell(id) {
-    const cell = this._cellDictionary[id];
-
-    if (cell.isBomb) {
-      alert("BOMB");
-      return;
-    }
-
-    cell.handleDisplay();
-
-    if (cell.value > 0) {
-      return;
-    }
-
-    this.displaySurroundingCells(cell);
+  getCellById(id) {
+    return this._cellDictionary[id];
   }
 
-  displaySurroundingCells(cell) {
+  handleIncrementCells(cell) {
+    cell.getSurroundingCells().forEach(cellId => this._cellDictionary[cellId].incrementValue());
+  }
+
+  handleSurroundingCells(cell) {
     let ids = new Set([...cell.getSurroundingCells()]);
 
     ids.forEach((id, _, array) => {
@@ -77,6 +68,8 @@ class Grid {
         cell.handleDisplay();
       }
     });
+
+    return ids.size;
   }
 }
 
