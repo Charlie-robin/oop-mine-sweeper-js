@@ -1,6 +1,6 @@
-import Cell from "./Cell.js";
+import Cell from "./CellData.js";
 
-class SurroundingCells {
+class SurroundingCellIds {
   constructor(index, inner, gridSize) {
     const cornerCells = [
       [index - 1, inner - 1],
@@ -18,9 +18,9 @@ class SurroundingCells {
 
     const surroundingCells = [...cardinalCells, ...cornerCells];
 
-    this._cornerCells = SurroundingCells.getValidCellLocations(cornerCells, gridSize);
-    this._cardinalCells = SurroundingCells.getValidCellLocations(cardinalCells, gridSize);
-    this._surroundingCells = SurroundingCells.getValidCellLocations(surroundingCells, gridSize);
+    this._cornerCells = SurroundingCellIds.getValidCellLocations(cornerCells, gridSize);
+    this._cardinalCells = SurroundingCellIds.getValidCellLocations(cardinalCells, gridSize);
+    this._surroundingCells = SurroundingCellIds.getValidCellLocations(surroundingCells, gridSize);
   }
 
   get surroundingCells() {
@@ -48,4 +48,4 @@ class SurroundingCells {
   }
 }
 
-export default SurroundingCells;
+export default SurroundingCellIds;
