@@ -12,19 +12,28 @@ class Cell {
     return this._cellHTML;
   }
 
-  handleDisplay(isBomb, value) {
-    if (isBomb) {
-      this.setBomb();
-    } else if (value !== 0) {
+  displayCell(value) {
+    if (value !== 0) {
       this._cellHTML.innerHTML = value;
     }
     this.setBackgroundColor(value);
   }
 
-  setBomb() {
+  displayBomb() {
     const img = document.createElement("img");
     img.src = "../../assets/mine.svg";
     this._cellHTML.appendChild(img);
+    this.setBackgroundColor("bomb");
+  }
+
+  displayFlag() {
+    const img = document.createElement("img");
+    img.src = "../../assets/flag.svg";
+    this._cellHTML.appendChild(img);
+  }
+
+  removeFlag() {
+    this._cellHTML.innerHTML = "";
   }
 
   setBackgroundColor(value) {

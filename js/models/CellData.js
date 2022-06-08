@@ -8,6 +8,15 @@ class CellData {
     this._value = 0;
     this._isBomb = false;
     this._isHidden = true;
+    this._isFlagged = false;
+  }
+
+  get isFlagged() {
+    return this._isFlagged;
+  }
+
+  toggleIsFlagged() {
+    this._isFlagged = !this._isFlagged;
   }
 
   get isHidden() {
@@ -40,7 +49,6 @@ class CellData {
 
   setMine() {
     this._isBomb = true;
-    this._value = "bomb";
   }
 
   incrementValue() {
