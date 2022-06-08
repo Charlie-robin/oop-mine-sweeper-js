@@ -1,13 +1,13 @@
 import CellDatabase from "../models/CellDatabase.js";
-import Display from "../view/Display.js";
-import Grid from "../view/Grid.js";
+import Display from "../views/Display.js";
+import Grid from "../views/Grid.js";
 
 class Game {
   constructor(mineCount, gridSize, target) {
     this._mineCount = mineCount;
     this._display = new Display(mineCount, gridSize * gridSize);
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
-    this._grid = new Grid(this._cellDatabase.getCellIds(), gridSize);
+    this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
     this._score = 0;
     this._total = gridSize * gridSize;
     this._target = target ? target : document.body;
@@ -30,9 +30,7 @@ class Game {
     if (!cellData.isHidden || cellData.isFlagged) return;
 
     if (cellData.isBomb) {
-      alert("BOMB");
-      cell.displayBomb();
-      cellData.isHidden = false;
+      this.handleBombCell(cell, cellData);
       return;
     }
 
@@ -65,6 +63,13 @@ class Game {
     }
     cellData.toggleIsFlagged();
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
+  }
+
+  handleBombCell(cell, cellData) {
+    alert("BOMB");
+    const mineLocations = this._cellDatabase.mineLocations;
+
+    this._grid.displayBombs(this._cellDatabase.mineLocations);
   }
 
   handleSurroundingCells(surroundingIds) {

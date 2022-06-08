@@ -1,4 +1,3 @@
-import Cell from "../view/Cell.js";
 import CellData from "./CellData.js";
 
 class CellDatabase {
@@ -8,6 +7,14 @@ class CellDatabase {
     this._cellDataDictionary = {};
     this._mineLocations = new Set();
     this._generateGrid();
+  }
+
+  get mineLocations() {
+    return this._mineLocations;
+  }
+
+  updateMines() {
+    this._mineLocations.forEach(mine => (this._cellDataDictionary[mine].isHidden = true));
   }
 
   _generateGrid() {
@@ -38,7 +45,7 @@ class CellDatabase {
     return this._cellDataDictionary[id];
   }
 
-  getCellIds() {
+  getAllCellIds() {
     return Object.keys(this._cellDataDictionary);
   }
 

@@ -24,6 +24,12 @@ class Grid {
   getCellById(id) {
     return this._cellDictionary[id];
   }
+
+  displayBombs(bombIds) {
+    bombIds.forEach(bombId => {
+      this._cellDictionary[bombId].displayBomb();
+    });
+  }
 }
 
 export default Grid;
