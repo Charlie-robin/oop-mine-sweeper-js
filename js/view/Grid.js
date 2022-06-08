@@ -1,9 +1,10 @@
 import Cell from "./Cell.js";
 
 class Grid {
-  constructor(cellIds) {
+  constructor(cellIds, gridSize) {
     this._gridHTML = document.createElement("div");
     this._gridHTML.classList.add("grid");
+    this._gridHTML.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
     this._cellDictionary = {};
     this.generateGrid(cellIds);
   }
