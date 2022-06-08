@@ -7,7 +7,7 @@ class CellData {
     this._surroundingCells = new SurroundingCellIds(index, inner, gridSize);
     this._value = 0;
     this._isBomb = false;
-    this._isHidden = true;
+    this._isVisible = false;
     this._isFlagged = false;
   }
 
@@ -19,16 +19,16 @@ class CellData {
     this._isFlagged = !this._isFlagged;
   }
 
-  get isHidden() {
-    return this._isHidden;
+  get isVisible() {
+    return this._isVisible;
   }
 
   get id() {
     return this._id;
   }
 
-  set isHidden(value) {
-    this._isHidden = value;
+  set isVisible(value) {
+    this._isVisible = value;
   }
 
   getAllSurroundingCells() {

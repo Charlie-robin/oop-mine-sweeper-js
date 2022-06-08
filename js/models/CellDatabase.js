@@ -5,16 +5,26 @@ class CellDatabase {
     this._mineCount = mineCount;
     this._gridSize = gridSize;
     this._cellDataDictionary = {};
-    this._mineLocations = new Set();
+    this._mineIds = new Set();
+    this._visibleCellIds = new Set();
     this._generateGrid();
   }
 
-  get mineLocations() {
-    return this._mineLocations;
+  get mineIds() {
+    return this._mineIds;
+  }
+
+  get visibleCellIds() {
+    return this._visibleCellIds;
+  }
+
+  updateVisibleCellIds(id) {
+    this._visibleCellIds.add(id);
+    this.getCellDataById(id).isVisible = true;
   }
 
   updateMines() {
-    this._mineLocations.forEach(mine => (this._cellDataDictionary[mine].isHidden = true));
+    this._mineIds.forEach(mine => (this._cellDataDictionary[mine].isVisible = true));
   }
 
   _generateGrid() {
@@ -29,11 +39,11 @@ class CellDatabase {
   }
 
   _generateMines() {
-    while (this._mineLocations.size < this._mineCount) {
+    while (this._mineIds.size < this._mineCount) {
       const [row, col] = this._getRandomRowCol();
       const id = CellData.createCellId(row, col);
-      if (!this._mineLocations.has(id)) {
-        this._mineLocations.add(id);
+      if (!this._mineIds.has(id)) {
+        this._mineIds.add(id);
         const cellData = this._cellDataDictionary[id];
         cellData.setMine();
         this._incrementSurroundingCells(cellData);

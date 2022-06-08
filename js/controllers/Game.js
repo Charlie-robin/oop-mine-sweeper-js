@@ -9,7 +9,6 @@ class Game {
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
     this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
     this._score = 0;
-    this._total = gridSize * gridSize;
     this._target = target ? target : document.body;
     this._flagsPlaced = 0;
   }
@@ -27,7 +26,7 @@ class Game {
     const cell = this._grid.getCellById(event.target.id);
     const cellData = this._cellDatabase.getCellDataById(event.target.id);
 
-    if (!cellData.isHidden || cellData.isFlagged) return;
+    if (cellData.isVisible || cellData.isFlagged) return;
 
     if (cellData.isBomb) {
       this.handleBombCell(cell, cellData);
@@ -35,12 +34,8 @@ class Game {
     }
 
     this.handleDisplayCell(cell, cellData);
-
-    if (cellData.value === 0) {
-      this.handleSurroundingCells(cellData.getAllSurroundingCells());
-    }
-
-    this._display.updateCellsLeft(this._score);
+    this.handleSurroundingCells(cellData);
+    this._display.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
   }
 
   handleFlagCell(event) {
@@ -52,7 +47,7 @@ class Game {
     const cell = this._grid.getCellById(cellId);
     const cellData = this._cellDatabase.getCellDataById(cellId);
 
-    if (!cellData.isHidden) return;
+    if (cellData.isVisible) return;
 
     if (cellData.isFlagged) {
       cell.removeFlag();
@@ -67,19 +62,20 @@ class Game {
 
   handleBombCell(cell, cellData) {
     alert("BOMB");
-    const mineLocations = this._cellDatabase.mineLocations;
-
-    this._grid.displayBombs(this._cellDatabase.mineLocations);
+    this._cellDatabase.updateMines();
+    this._grid.displayBombs(this._cellDatabase.mineIds);
   }
 
-  handleSurroundingCells(surroundingIds) {
-    const ids = new Set([...surroundingIds]);
+  handleSurroundingCells(initialCellData) {
+    if (initialCellData.value !== 0) return;
+
+    const ids = new Set([...initialCellData.getAllSurroundingCells()]);
 
     ids.forEach((id, _, array) => {
       const cellData = this._cellDatabase.getCellDataById(id);
       const cell = this._grid.getCellById(id);
 
-      if (cellData.value === 0 && cellData.isHidden) {
+      if (cellData.value === 0 && !cellData.isVisible) {
         this.handleDisplayCell(cell, cellData);
         cellData.getCardinalCells().forEach(cellId => array.add(cellId));
       }
@@ -92,8 +88,7 @@ class Game {
 
   handleDisplayCell(cell, cellData) {
     cell.displayCell(cellData.value);
-    cellData.isHidden = false;
-    this._score++;
+    this._cellDatabase.updateVisibleCellIds(cellData.id);
   }
 }
 
