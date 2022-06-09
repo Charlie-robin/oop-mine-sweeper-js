@@ -1,6 +1,6 @@
 import CellDatabase from "../models/cell/CellDatabase.js";
-import GridDisplay from "../views/grid/GridDisplay.js";
-import Grid from "../views/grid/Grid.js";
+import GridDisplay from "../views/cell/GridDisplay.js";
+import Grid from "../views/cell/Grid.js";
 
 class LevelPlay {
   constructor(mineCount, gridSize, target) {

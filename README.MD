@@ -1,3 +1,3 @@
 # Mine sweeper
 
-10 mines 10 x 10 grid
+This is a project exploring OOP and MVC with Javascript. Why? I am not sure but I am going with it.
