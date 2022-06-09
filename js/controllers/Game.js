@@ -1,6 +1,6 @@
-import LevelDatabase from "../models/level/LevelDataBase.js";
+import LevelDatabase from "../models/level/LevelDatabase.js";
 import LevelSelect from "../views/level/LevelSelect.js";
-import LevelPlay from "./LevelPlay.js";
+import PlayLevel from "./PlayLevel.js";
 
 class Game {
   constructor() {
@@ -25,7 +25,7 @@ class Game {
   _handleSelectLevel(event) {
     if (!event.target.id) return;
     const levelData = this._levelDataBase.getLevelById(event.target.id);
-    this._selectedLevel = new LevelPlay(levelData.mineCount, levelData.gridSize);
+    this._selectedLevel = new PlayLevel(levelData.mineCount, levelData.gridSize);
     this._startSelectedLevel();
   }
 }

@@ -2,7 +2,7 @@ import CellDatabase from "../models/cell/CellDatabase.js";
 import GridDisplay from "../views/cell/GridDisplay.js";
 import Grid from "../views/cell/Grid.js";
 
-class LevelPlay {
+class PlayLevel {
   constructor(mineCount, gridSize, target) {
     this._mineCount = mineCount;
     this._display = new GridDisplay(mineCount, gridSize * gridSize);
@@ -75,7 +75,7 @@ class LevelPlay {
       const cellData = this._cellDatabase.getCellDataById(id);
       const cell = this._grid.getCellById(id);
 
-      if (cellData.value === 0 && !cellData.isVisible) {
+      if (cellData.value === 0 && !cellData.isVisible && !cellData.isFlagged) {
         this._handleDisplayCell(cell, cellData);
         cellData.getCardinalCells().forEach(cellId => array.add(cellId));
       }
@@ -92,4 +92,4 @@ class LevelPlay {
   }
 }
 
-export default LevelPlay;
+export default PlayLevel;

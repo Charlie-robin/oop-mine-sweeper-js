@@ -20,10 +20,12 @@ class GridCell {
   }
 
   displayMine() {
-    const img = document.createElement("img");
-    img.src = "../../assets/mine.svg";
-    this._cellHTML.appendChild(img);
-    this._setBackgroundColor("mine");
+    if (!this._cellHTML.hasChildNodes()) {
+      const img = document.createElement("img");
+      img.src = "../../assets/mine.svg";
+      this._cellHTML.appendChild(img);
+      this._setBackgroundColor("mine");
+    }
   }
 
   displayFlag() {
