@@ -18,9 +18,9 @@ class SurroundingCellIds {
 
     const surroundingCells = [...cardinalCells, ...cornerCells];
 
-    this._cornerCells = SurroundingCellIds.getValidCellLocations(cornerCells, gridSize);
-    this._cardinalCells = SurroundingCellIds.getValidCellLocations(cardinalCells, gridSize);
-    this._surroundingCells = SurroundingCellIds.getValidCellLocations(surroundingCells, gridSize);
+    this._cornerCells = this._getValidCellLocations(cornerCells, gridSize);
+    this._cardinalCells = this._getValidCellLocations(cardinalCells, gridSize);
+    this._surroundingCells = this._getValidCellLocations(surroundingCells, gridSize);
   }
 
   get surroundingCells() {
@@ -35,7 +35,7 @@ class SurroundingCellIds {
     return this._cornerCells;
   }
 
-  static getValidCellLocations(positions, gridSize) {
+  _getValidCellLocations(positions, gridSize) {
     return positions.reduce((acc, position) => {
       const [row, col] = position;
 

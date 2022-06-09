@@ -6,10 +6,10 @@ class Grid {
     this._gridHTML.classList.add("grid");
     this._gridHTML.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
     this._cellDictionary = {};
-    this.generateGrid(cellIds);
+    this._createGrid(cellIds);
   }
 
-  generateGrid(cellIds) {
+  _createGrid(cellIds) {
     cellIds.forEach(id => {
       const cell = new GridCell(id);
       this._cellDictionary[id] = cell;

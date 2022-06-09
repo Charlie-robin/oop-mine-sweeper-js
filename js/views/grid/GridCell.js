@@ -16,28 +16,33 @@ class GridCell {
     if (value !== 0) {
       this._cellHTML.innerHTML = value;
     }
-    this.setBackgroundColor(value);
+    this._setBackgroundColor(value);
   }
 
   displayBomb() {
     const img = document.createElement("img");
     img.src = "../../assets/mine.svg";
     this._cellHTML.appendChild(img);
-    this.setBackgroundColor("bomb");
+    this._setBackgroundColor("bomb");
   }
 
   displayFlag() {
     const img = document.createElement("img");
     img.src = "../../assets/flag.svg";
     this._cellHTML.appendChild(img);
+    this._setBackgroundColor("flag");
   }
 
   removeFlag() {
     this._cellHTML.innerHTML = "";
+    this._setBackgroundColor();
   }
 
-  setBackgroundColor(value) {
+  _setBackgroundColor(value) {
     switch (value) {
+      case 0:
+        this._cellHTML.style.backgroundColor = Colors.EMPTY;
+        break;
       case 1:
         this._cellHTML.style.backgroundColor = Colors.LOW;
         break;
@@ -48,8 +53,11 @@ class GridCell {
       case "bomb":
         this._cellHTML.style.backgroundColor = Colors.HIGH;
         break;
+      case "flag":
+        this._cellHTML.style.backgroundColor = Colors.FLAG;
+        break;
       default:
-        this._cellHTML.style.backgroundColor = Colors.EMPTY;
+        this._cellHTML.style.backgroundColor = Colors.HIDDEN;
         break;
     }
   }

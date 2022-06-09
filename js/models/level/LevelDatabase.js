@@ -4,15 +4,7 @@ import LevelData from "./LevelData.js";
 class LevelDatabase {
   constructor() {
     this._levelDictionary = {};
-    this._generateLevels();
-  }
-
-  _generateLevels() {
-    const levelValues = [5, 10, 15];
-    levelValues.forEach((levelValue, index) => {
-      const id = Ids.createLevelId(index + 1);
-      this._levelDictionary[id] = new LevelData(id, levelValue, levelValue);
-    });
+    this._createDatabase();
   }
 
   getLevelById(id) {
@@ -25,6 +17,14 @@ class LevelDatabase {
 
   getLevelIds() {
     return Object.keys(this._levelDictionary);
+  }
+  
+  _createDatabase() {
+    const levelValues = [5, 10, 15];
+    levelValues.forEach((levelValue, index) => {
+      const id = Ids.createLevelId(index + 1);
+      this._levelDictionary[id] = new LevelData(id, levelValue, levelValue);
+    });
   }
 }
 

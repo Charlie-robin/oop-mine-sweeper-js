@@ -17,16 +17,16 @@ class Game {
     this._target.appendChild(levelSelectHTML);
   }
 
-  startSelectedLevel() {
+  _startSelectedLevel() {
     this._target.innerHTML = "";
-    this._selectedLevel.start();
+    this._selectedLevel.play();
   }
 
   _handleSelectLevel(event) {
     if (!event.target.id) return;
     const levelData = this._levelDataBase.getLevelById(event.target.id);
     this._selectedLevel = new LevelPlay(levelData.mineCount, levelData.gridSize);
-    this.startSelectedLevel();
+    this._startSelectedLevel();
   }
 }
 

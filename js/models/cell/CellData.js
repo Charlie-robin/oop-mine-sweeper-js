@@ -14,16 +14,20 @@ class CellData {
     return this._isFlagged;
   }
 
-  toggleIsFlagged() {
-    this._isFlagged = !this._isFlagged;
-  }
-
   get isVisible() {
     return this._isVisible;
   }
 
   get id() {
     return this._id;
+  }
+
+  get isBomb() {
+    return this._isBomb;
+  }
+
+  get value() {
+    return this._value;
   }
 
   set isVisible(value) {
@@ -38,14 +42,6 @@ class CellData {
     return this._surroundingCells.cardinalCells;
   }
 
-  get isBomb() {
-    return this._isBomb;
-  }
-
-  get value() {
-    return this._value;
-  }
-
   setMine() {
     this._isBomb = true;
   }
@@ -56,7 +52,9 @@ class CellData {
     }
   }
 
-
+  toggleIsFlagged() {
+    this._isFlagged = !this._isFlagged;
+  }
 }
 
 export default CellData;

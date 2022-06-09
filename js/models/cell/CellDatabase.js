@@ -8,7 +8,7 @@ class CellDatabase {
     this._cellDataDictionary = {};
     this._mineIds = new Set();
     this._visibleCellIds = new Set();
-    this._generateGrid();
+    this._createDatabase();
   }
 
   get mineIds() {
@@ -17,6 +17,14 @@ class CellDatabase {
 
   get visibleCellIds() {
     return this._visibleCellIds;
+  }
+
+  getCellDataById(id) {
+    return this._cellDataDictionary[id];
+  }
+
+  getAllCellIds() {
+    return Object.keys(this._cellDataDictionary);
   }
 
   updateVisibleCellIds(id) {
@@ -28,7 +36,7 @@ class CellDatabase {
     this._mineIds.forEach(mine => (this._cellDataDictionary[mine].isVisible = true));
   }
 
-  _generateGrid() {
+  _createDatabase() {
     for (let index = 0; index < this._gridSize; index++) {
       for (let inner = 0; inner < this._gridSize; inner++) {
         const id = Ids.createCellId(index, inner);
@@ -36,10 +44,10 @@ class CellDatabase {
         this._cellDataDictionary[id] = cellData;
       }
     }
-    this._generateMines();
+    this._populateMines();
   }
 
-  _generateMines() {
+  _populateMines() {
     while (this._mineIds.size < this._mineCount) {
       const [row, col] = this._getRandomRowCol();
       const id = Ids.createCellId(row, col);
@@ -50,14 +58,6 @@ class CellDatabase {
         this._incrementSurroundingCells(cellData);
       }
     }
-  }
-
-  getCellDataById(id) {
-    return this._cellDataDictionary[id];
-  }
-
-  getAllCellIds() {
-    return Object.keys(this._cellDataDictionary);
   }
 
   _getRandomRowCol() {

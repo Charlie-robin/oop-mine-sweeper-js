@@ -13,14 +13,14 @@ class LevelPlay {
     this._flagsPlaced = 0;
   }
 
-  start() {
+  play() {
     this._target.appendChild(this._display.displayHTML);
     this._target.appendChild(this._grid.gridHTML);
-    this._grid.gridHTML.addEventListener("click", this.handleRevealCell.bind(this));
-    this._grid.gridHTML.addEventListener("contextmenu", this.handleFlagCell.bind(this));
+    this._grid.gridHTML.addEventListener("click", this._handleRevealCell.bind(this));
+    this._grid.gridHTML.addEventListener("contextmenu", this._handleFlagCell.bind(this));
   }
 
-  handleRevealCell(event) {
+  _handleRevealCell(event) {
     if (!event.target.id) return;
 
     const cell = this._grid.getCellById(event.target.id);
@@ -29,16 +29,16 @@ class LevelPlay {
     if (cellData.isVisible || cellData.isFlagged) return;
 
     if (cellData.isBomb) {
-      this.handleBombCell(cell, cellData);
+      this._handleBombCell(cell, cellData);
       return;
     }
 
-    this.handleDisplayCell(cell, cellData);
-    this.handleSurroundingCells(cellData);
+    this._handleDisplayCell(cell, cellData);
+    this._handleSurroundingCells(cellData);
     this._display.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
   }
 
-  handleFlagCell(event) {
+  _handleFlagCell(event) {
     event.preventDefault();
 
     if (!event.target.id && !event.target.parentElement.id) return;
@@ -60,13 +60,13 @@ class LevelPlay {
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
   }
 
-  handleBombCell(cell, cellData) {
+  _handleBombCell(cell, cellData) {
     alert("BOMB");
     this._cellDatabase.updateMines();
     this._grid.displayBombs(this._cellDatabase.mineIds);
   }
 
-  handleSurroundingCells(initialCellData) {
+  _handleSurroundingCells(initialCellData) {
     if (initialCellData.value !== 0) return;
 
     const ids = new Set([...initialCellData.getAllSurroundingCells()]);
@@ -76,17 +76,17 @@ class LevelPlay {
       const cell = this._grid.getCellById(id);
 
       if (cellData.value === 0 && !cellData.isVisible) {
-        this.handleDisplayCell(cell, cellData);
+        this._handleDisplayCell(cell, cellData);
         cellData.getCardinalCells().forEach(cellId => array.add(cellId));
       }
 
       if (cellData.value > 0 && !cellData.isFlagged) {
-        this.handleDisplayCell(cell, cellData);
+        this._handleDisplayCell(cell, cellData);
       }
     });
   }
 
-  handleDisplayCell(cell, cellData) {
+  _handleDisplayCell(cell, cellData) {
     cell.displayCell(cellData.value);
     this._cellDatabase.updateVisibleCellIds(cellData.id);
   }
