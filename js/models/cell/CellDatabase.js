@@ -1,4 +1,5 @@
 import CellData from "./CellData.js";
+import Ids from "../../utilities/Ids.js";
 
 class CellDatabase {
   constructor(mineCount, gridSize) {
@@ -30,7 +31,7 @@ class CellDatabase {
   _generateGrid() {
     for (let index = 0; index < this._gridSize; index++) {
       for (let inner = 0; inner < this._gridSize; inner++) {
-        const id = CellData.createCellId(index, inner);
+        const id = Ids.createCellId(index, inner);
         const cellData = new CellData(id, index, inner, this._gridSize);
         this._cellDataDictionary[id] = cellData;
       }
@@ -41,7 +42,7 @@ class CellDatabase {
   _generateMines() {
     while (this._mineIds.size < this._mineCount) {
       const [row, col] = this._getRandomRowCol();
-      const id = CellData.createCellId(row, col);
+      const id = Ids.createCellId(row, col);
       if (!this._mineIds.has(id)) {
         this._mineIds.add(id);
         const cellData = this._cellDataDictionary[id];

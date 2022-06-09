@@ -1,4 +1,4 @@
-class Display {
+class GridDisplay {
   constructor(flagsLeft, cellTotal) {
     this._cellTotal = cellTotal;
     this._cellsClearedHTML = document.createElement("p");
@@ -23,4 +23,4 @@ class Display {
   }
 }
 
-export default Display;
+export default GridDisplay;

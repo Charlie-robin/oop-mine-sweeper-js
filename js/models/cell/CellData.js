@@ -1,4 +1,3 @@
-import Colors from "../utilities/Colors.js";
 import SurroundingCellIds from "./SurroundingCellIds.js";
 
 class CellData {
@@ -57,9 +56,7 @@ class CellData {
     }
   }
 
-  static createCellId(row, col) {
-    return `row:${row}-col:${col}`;
-  }
+
 }
 
 export default CellData;

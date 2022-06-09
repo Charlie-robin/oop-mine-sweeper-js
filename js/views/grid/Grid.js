@@ -1,4 +1,4 @@
-import Cell from "./Cell.js";
+import GridCell from "./GridCell.js";
 
 class Grid {
   constructor(cellIds, gridSize) {
@@ -11,7 +11,7 @@ class Grid {
 
   generateGrid(cellIds) {
     cellIds.forEach(id => {
-      const cell = new Cell(id);
+      const cell = new GridCell(id);
       this._cellDictionary[id] = cell;
       this._gridHTML.appendChild(cell.cellHTML);
     });

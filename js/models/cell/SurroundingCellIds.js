@@ -1,4 +1,4 @@
-import Cell from "./CellData.js";
+import Ids from "../../utilities/Ids.js";
 
 class SurroundingCellIds {
   constructor(index, inner, gridSize) {
@@ -40,7 +40,7 @@ class SurroundingCellIds {
       const [row, col] = position;
 
       if (row >= 0 && row < gridSize && col >= 0 && col < gridSize) {
-        acc.push(Cell.createCellId(row, col));
+        acc.push(Ids.createCellId(row, col));
       }
 
       return acc;
