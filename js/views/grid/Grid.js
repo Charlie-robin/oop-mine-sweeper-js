@@ -25,9 +25,9 @@ class Grid {
     return this._cellDictionary[id];
   }
 
-  displayBombs(bombIds) {
-    bombIds.forEach(bombId => {
-      this._cellDictionary[bombId].displayBomb();
+  displayMines(mineIds) {
+    mineIds.forEach(mineId => {
+      this._cellDictionary[mineId].displayMine();
     });
   }
 }

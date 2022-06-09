@@ -19,11 +19,11 @@ class GridCell {
     this._setBackgroundColor(value);
   }
 
-  displayBomb() {
+  displayMine() {
     const img = document.createElement("img");
     img.src = "../../assets/mine.svg";
     this._cellHTML.appendChild(img);
-    this._setBackgroundColor("bomb");
+    this._setBackgroundColor("mine");
   }
 
   displayFlag() {
@@ -50,7 +50,8 @@ class GridCell {
         this._cellHTML.style.backgroundColor = Colors.MEDIUM;
         break;
       case 3:
-      case "bomb":
+      case 4:
+      case "mine":
         this._cellHTML.style.backgroundColor = Colors.HIGH;
         break;
       case "flag":

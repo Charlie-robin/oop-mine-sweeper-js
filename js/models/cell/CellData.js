@@ -5,7 +5,7 @@ class CellData {
     this._id = id;
     this._surroundingCells = new SurroundingCellIds(index, inner, gridSize);
     this._value = 0;
-    this._isBomb = false;
+    this._hasMine = false;
     this._isVisible = false;
     this._isFlagged = false;
   }
@@ -22,8 +22,8 @@ class CellData {
     return this._id;
   }
 
-  get isBomb() {
-    return this._isBomb;
+  get hasMine() {
+    return this._hasMine;
   }
 
   get value() {
@@ -43,11 +43,11 @@ class CellData {
   }
 
   setMine() {
-    this._isBomb = true;
+    this._hasMine = true;
   }
 
   incrementValue() {
-    if (!this._isBomb) {
+    if (!this._hasMine) {
       this._value++;
     }
   }

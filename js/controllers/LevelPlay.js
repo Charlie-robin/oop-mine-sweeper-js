@@ -28,8 +28,8 @@ class LevelPlay {
 
     if (cellData.isVisible || cellData.isFlagged) return;
 
-    if (cellData.isBomb) {
-      this._handleBombCell(cell, cellData);
+    if (cellData.hasMine) {
+      this._handleMineCell(cell, cellData);
       return;
     }
 
@@ -60,10 +60,10 @@ class LevelPlay {
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
   }
 
-  _handleBombCell(cell, cellData) {
-    alert("BOMB");
+  _handleMineCell() {
+    alert("Mine");
     this._cellDatabase.updateMines();
-    this._grid.displayBombs(this._cellDatabase.mineIds);
+    this._grid.displayMines(this._cellDatabase.mineIds);
   }
 
   _handleSurroundingCells(initialCellData) {
