@@ -37,7 +37,7 @@ class GridCell {
 
   removeFlag() {
     this._cellHTML.innerHTML = "";
-    this._setBackgroundColor();
+    this._setBackgroundColor("hidden");
   }
 
   _setBackgroundColor(value) {
@@ -51,16 +51,14 @@ class GridCell {
       case 2:
         this._cellHTML.style.backgroundColor = Colors.MEDIUM;
         break;
-      case 3:
-      case 4:
-      case "mine":
-        this._cellHTML.style.backgroundColor = Colors.HIGH;
+      case "hidden":
+        this._cellHTML.style.backgroundColor = Colors.HIDDEN;
         break;
       case "flag":
         this._cellHTML.style.backgroundColor = Colors.FLAG;
         break;
       default:
-        this._cellHTML.style.backgroundColor = Colors.HIDDEN;
+        this._cellHTML.style.backgroundColor = Colors.HIGH;
         break;
     }
   }
