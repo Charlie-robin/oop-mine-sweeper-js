@@ -8,16 +8,18 @@ class PlayLevel {
     this._display = new GridDisplay(mineCount, gridSize * gridSize);
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
     this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
-    this._score = 0;
-    this._target = target ? target : document.body;
+    this._target = document.body;
+    this._target.classList.add("game");
     this._flagsPlaced = 0;
+    this._cellHandler = this._handleRevealCell.bind(this);
+    this._flagHandler = this._handleFlagCell.bind(this);
   }
 
   play() {
     this._target.appendChild(this._display.displayHTML);
     this._target.appendChild(this._grid.gridHTML);
-    this._grid.gridHTML.addEventListener("click", this._handleRevealCell.bind(this));
-    this._grid.gridHTML.addEventListener("contextmenu", this._handleFlagCell.bind(this));
+    this._grid.gridHTML.addEventListener("click", this._cellHandler);
+    this._grid.gridHTML.addEventListener("contextmenu", this._flagHandler);
   }
 
   _handleRevealCell(event) {
@@ -29,7 +31,7 @@ class PlayLevel {
     if (cellData.isVisible || cellData.isFlagged) return;
 
     if (cellData.hasMine) {
-      this._handleMineCell(cell, cellData);
+      this._handleMineCell(event);
       return;
     }
 
@@ -60,10 +62,14 @@ class PlayLevel {
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
   }
 
-  _handleMineCell() {
+  _handleMineCell(event) {
     alert("Mine");
     this._cellDatabase.updateMines();
     this._grid.displayMines(this._cellDatabase.mineIds);
+    console.dir(event);
+
+    this._grid.gridHTML.removeEventListener("click", this._cellHandler);
+    this._grid.gridHTML.removeEventListener("contextmenu", this._flagHandler);
   }
 
   _handleSurroundingCells(initialCellData) {

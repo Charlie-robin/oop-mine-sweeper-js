@@ -2,19 +2,9 @@ import GridCell from "./GridCell.js";
 
 class Grid {
   constructor(cellIds, gridSize) {
-    this._gridHTML = document.createElement("div");
-    this._gridHTML.classList.add("grid");
-    this._gridHTML.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
     this._cellDictionary = {};
-    this._createGrid(cellIds);
-  }
-
-  _createGrid(cellIds) {
-    cellIds.forEach(id => {
-      const cell = new GridCell(id);
-      this._cellDictionary[id] = cell;
-      this._gridHTML.appendChild(cell.cellHTML);
-    });
+    this._gridHTML = this._createGridHTML(gridSize);
+    this._createCellDictionary(cellIds);
   }
 
   get gridHTML() {
@@ -29,6 +19,25 @@ class Grid {
     mineIds.forEach(mineId => {
       this._cellDictionary[mineId].displayMine();
     });
+  }
+
+  _createCellDictionary(cellIds) {
+    cellIds.forEach(id => {
+      const cell = new GridCell(id);
+      this._cellDictionary[id] = cell;
+      this._gridHTML.appendChild(cell.cellHTML);
+    });
+  }
+
+  _createGridHTML(gridSize) {
+    const grid = document.createElement("div");
+    grid.classList.add("grid");
+    grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+    const screenWidth = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
+    grid.style.width = screenWidth - 20 + "px";
+    grid.style.height = screenWidth - 20 + "px";
+    return grid;
   }
 }
 
