@@ -22,7 +22,8 @@ class GridCell {
   displayMine() {
     if (!this._cellHTML.hasChildNodes()) {
       const img = document.createElement("img");
-      img.src = "../../assets/mine.svg";
+      //   QUICK FIX
+      img.src = "https://charlie-robin.github.io/oop-mine-sweeper-js/assets/mine.svg";
       this._cellHTML.appendChild(img);
       this._setBackgroundColor("mine");
     }
@@ -30,7 +31,8 @@ class GridCell {
 
   displayFlag() {
     const img = document.createElement("img");
-    img.src = "../../assets/flag.svg";
+    //   QUICK FIX
+    img.src = "https://charlie-robin.github.io/oop-mine-sweeper-js/assets/flag.svg";
     this._cellHTML.appendChild(img);
     this._setBackgroundColor("flag");
   }

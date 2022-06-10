@@ -25,3 +25,5 @@ This is a project exploring OOP and MVC with Javascript. Why? I am not sure but 
 
 - Game ends
 - Playing on mobile??????
+- SVG paths on Github Pages
+  - Kinda fixed
