@@ -6,7 +6,7 @@ class GridCell {
     this._cellHTML = document.createElement("div");
     this._cellHTML.id = id;
     this._cellHTML.classList.add("cell");
-    this._cellHTML.innerHTML = id;
+    // this._cellHTML.innerHTML = id;
   }
 
   get cellHTML() {

@@ -3,7 +3,7 @@ import GridDisplay from "../views/cell/GridDisplay.js";
 import Grid from "../views/cell/Grid.js";
 
 class PlayLevel {
-  constructor(mineCount, gridSize) {
+  constructor(mineCount, gridSize, handleLevelPlayed) {
     this._mineCount = mineCount;
     this._cellTotal = gridSize * gridSize;
     this._display = new GridDisplay(mineCount, this._cellTotal);
@@ -14,9 +14,10 @@ class PlayLevel {
     this._flagsPlaced = 0;
     this._cellHandler = this._handleRevealCell.bind(this);
     this._flagHandler = this._handleFlagCell.bind(this);
+    this._handleLevelPlayed = handleLevelPlayed;
   }
 
-  play() {
+  display() {
     this._target.appendChild(this._display.displayHTML);
     this._target.appendChild(this._grid.gridHTML);
     this._grid.gridHTML.addEventListener("click", this._cellHandler);
@@ -40,6 +41,7 @@ class PlayLevel {
 
     if (this._isPlayOver()) {
       alert("END");
+      this._handleLevelPlayed();
     }
   }
 
@@ -65,6 +67,7 @@ class PlayLevel {
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
     if (this._isPlayOver()) {
       alert("END");
+      this._handleLevelPlayed();
     }
   }
 
