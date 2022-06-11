@@ -3,9 +3,10 @@ import GridDisplay from "../views/cell/GridDisplay.js";
 import Grid from "../views/cell/Grid.js";
 
 class PlayLevel {
-  constructor(mineCount, gridSize, target) {
+  constructor(mineCount, gridSize) {
     this._mineCount = mineCount;
-    this._display = new GridDisplay(mineCount, gridSize * gridSize);
+    this._cellTotal = gridSize * gridSize;
+    this._display = new GridDisplay(mineCount, this._cellTotal);
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
     this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
     this._target = document.body;
@@ -23,21 +24,23 @@ class PlayLevel {
   }
 
   _handleRevealCell(event) {
-    if (!event.target.id) return;
+    const id = event.target.id;
+    if (!id) return;
 
-    const cell = this._grid.getCellById(event.target.id);
-    const cellData = this._cellDatabase.getCellDataById(event.target.id);
+    if (this._cellDatabase.isUnableToReveal(id)) return;
 
-    if (cellData.isVisible || cellData.isFlagged) return;
-
-    if (cellData.hasMine) {
+    if (this._cellDatabase.isMineCell(id)) {
       this._handleMineCell(event);
       return;
     }
 
-    this._handleDisplayCell(cell, cellData);
-    this._handleSurroundingCells(cellData);
+    this._handleDisplayCell(id, this._cellDatabase.getCellValueById(id));
+    this._handleSurroundingCells(id);
     this._display.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
+
+    if (this._isPlayOver()) {
+      alert("END");
+    }
   }
 
   _handleFlagCell(event) {
@@ -46,55 +49,63 @@ class PlayLevel {
     if (!event.target.id && !event.target.parentElement.id) return;
 
     const cellId = event.target.id ? event.target.id : event.target.parentElement.id;
-    const cell = this._grid.getCellById(cellId);
     const cellData = this._cellDatabase.getCellDataById(cellId);
 
     if (cellData.isVisible) return;
 
     if (cellData.isFlagged) {
-      cell.removeFlag();
+      this._grid.toggleFlagById(cellId);
       this._flagsPlaced--;
     } else if (this._flagsPlaced < this._mineCount) {
-      cell.displayFlag();
+      this._grid.toggleFlagById(cellId);
       this._flagsPlaced++;
     }
+
     cellData.toggleIsFlagged();
     this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
+    if (this._isPlayOver()) {
+      alert("END");
+    }
+  }
+
+  _isPlayOver() {
+    const currentCellTotal = this._cellDatabase.visibleCellIds.size + this._flagsPlaced;
+
+    return currentCellTotal === this._cellTotal;
   }
 
   _handleMineCell(event) {
     alert("Mine");
     this._cellDatabase.updateMines();
     this._grid.displayMines(this._cellDatabase.mineIds);
-    console.dir(event);
-
+    this._cellDatabase.getFlaggedCellData().forEach(el => console.log(el.id));
     this._grid.gridHTML.removeEventListener("click", this._cellHandler);
     this._grid.gridHTML.removeEventListener("contextmenu", this._flagHandler);
   }
 
-  _handleSurroundingCells(initialCellData) {
+  _handleSurroundingCells(id) {
+    const initialCellData = this._cellDatabase.getCellDataById(id);
     if (initialCellData.value !== 0) return;
 
     const ids = new Set([...initialCellData.getAllSurroundingCells()]);
 
     ids.forEach((id, _, array) => {
       const cellData = this._cellDatabase.getCellDataById(id);
-      const cell = this._grid.getCellById(id);
 
       if (cellData.value === 0 && !cellData.isVisible && !cellData.isFlagged) {
-        this._handleDisplayCell(cell, cellData);
+        this._handleDisplayCell(id, cellData.value);
         cellData.getCardinalCells().forEach(cellId => array.add(cellId));
       }
 
       if (cellData.value > 0 && !cellData.isFlagged) {
-        this._handleDisplayCell(cell, cellData);
+        this._handleDisplayCell(id, cellData.value);
       }
     });
   }
 
-  _handleDisplayCell(cell, cellData) {
-    cell.displayCell(cellData.value);
-    this._cellDatabase.updateVisibleCellIds(cellData.id);
+  _handleDisplayCell(id, value) {
+    this._grid.displayCellById(id, value);
+    this._cellDatabase.updateVisibleCellIds(id);
   }
 }
 

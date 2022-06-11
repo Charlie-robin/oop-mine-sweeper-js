@@ -5,6 +5,7 @@ class Colors {
   static LOW = "#FF9F45";
   static MEDIUM = "#F76E11";
   static HIGH = "#FC4F4F";
+  static SUCCESS = "#00FFAB";
 }
 
 export default Colors;

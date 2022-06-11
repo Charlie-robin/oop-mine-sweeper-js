@@ -23,8 +23,25 @@ class CellDatabase {
     return this._cellDataDictionary[id];
   }
 
+  getCellValueById(id) {
+    return this.getCellDataById(id).value;
+  }
+
   getAllCellIds() {
     return Object.keys(this._cellDataDictionary);
+  }
+
+  getFlaggedCellData() {
+    return Object.values(this._cellDataDictionary).filter(cell => cell.isFlagged && cell.hasMine);
+  }
+
+  isMineCell(id) {
+    return this._cellDataDictionary[id].hasMine;
+  }
+
+  isUnableToReveal(id) {
+    const cellData = this.getCellDataById(id);
+    return cellData.isVisible || cellData.isFlagged;
   }
 
   updateVisibleCellIds(id) {
@@ -58,6 +75,7 @@ class CellDatabase {
         this._incrementSurroundingCells(cellData);
       }
     }
+    console.log(this._mineIds);
   }
 
   _getRandomRowCol() {

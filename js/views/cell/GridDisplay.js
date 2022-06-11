@@ -1,8 +1,8 @@
 class GridDisplay {
   constructor(flagsLeft, cellTotal) {
-    this._cellTotal = cellTotal;
+    this._cellTotal = cellTotal - flagsLeft;
     this._cellsClearedHTML = document.createElement("p");
-    this._cellsClearedHTML.textContent = `Cells cleared : 0/${cellTotal}`;
+    this._cellsClearedHTML.textContent = `Cells cleared : 0/${this._cellTotal}`;
     this._flagsLeftHTML = document.createElement("p");
     this._flagsLeftHTML.textContent = `Flags left : ${flagsLeft}`;
     this._displayHTML = document.createElement("div");

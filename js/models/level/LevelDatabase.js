@@ -23,7 +23,7 @@ class LevelDatabase {
     const levelValues = [5, 10, 15];
     levelValues.forEach((levelValue, index) => {
       const id = Ids.createLevelId(index + 1);
-      this._levelDictionary[id] = new LevelData(id, levelValue, levelValue);
+      this._levelDictionary[id] = new LevelData(id, 1, levelValue);
     });
   }
 }

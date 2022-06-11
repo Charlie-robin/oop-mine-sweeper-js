@@ -21,6 +21,15 @@ class Grid {
     });
   }
 
+  displayCellById(id, value) {
+    const cell = this.getCellById(id);
+    cell.displayCell(value);
+  }
+
+  toggleFlagById(id) {
+    this.getCellById(id).toggleFlag();
+  }
+
   _createCellDictionary(cellIds) {
     cellIds.forEach(id => {
       const cell = new GridCell(id);
