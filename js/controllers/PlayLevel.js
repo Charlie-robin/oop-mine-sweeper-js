@@ -1,14 +1,14 @@
 import CellDatabase from "../models/cell/CellDatabase.js";
-import GridDisplay from "../views/cell/GridDisplay.js";
-import Grid from "../views/cell/Grid.js";
+import CellGridInfo from "../views/cell/CellGridInfo.js";
+import CellGrid from "../views/cell/CellGrid.js";
 
 class PlayLevel {
   constructor(mineCount, gridSize, handleLevelPlayed, playerHTML) {
     this._mineCount = mineCount;
     this._cellTotal = gridSize * gridSize;
-    this._gridDisplay = new GridDisplay(mineCount, this._cellTotal);
+    this._cellGridInfo = new CellGridInfo(mineCount, this._cellTotal);
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
-    this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
+    this._cellGrid = new CellGrid(this._cellDatabase.getAllCellIds(), gridSize);
     this._target = document.body;
     this._target.classList.add("game");
     this._flagsPlaced = 0;
@@ -19,11 +19,11 @@ class PlayLevel {
   }
 
   display() {
-    this._target.appendChild(this._gridDisplay.displayHTML);
-    this._target.appendChild(this._grid.gridHTML);
+    this._target.appendChild(this._cellGridInfo.cellGridInfoHTML);
+    this._target.appendChild(this._cellGrid.cellGridHTML);
     this._target.appendChild(this._playerHTML);
-    this._grid.gridHTML.addEventListener("click", this._cellHandler);
-    this._grid.gridHTML.addEventListener("contextmenu", this._flagHandler);
+    this._cellGrid.cellGridHTML.addEventListener("click", this._cellHandler);
+    this._cellGrid.cellGridHTML.addEventListener("contextmenu", this._flagHandler);
   }
 
   _handleRevealCell(event) {
@@ -39,7 +39,7 @@ class PlayLevel {
 
     this._handleDisplayCell(id, this._cellDatabase.getCellValueById(id));
     this._handleSurroundingCells(id);
-    this._gridDisplay.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
+    this._cellGridInfo.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
 
     if (this._isPlayOver()) {
       alert("END");
@@ -58,15 +58,15 @@ class PlayLevel {
     if (cellData.isVisible) return;
 
     if (cellData.isFlagged) {
-      this._grid.toggleFlagById(cellId);
+      this._cellGrid.toggleFlagById(cellId);
       this._flagsPlaced--;
     } else if (this._flagsPlaced < this._mineCount) {
-      this._grid.toggleFlagById(cellId);
+      this._cellGrid.toggleFlagById(cellId);
       this._flagsPlaced++;
     }
 
     cellData.toggleIsFlagged();
-    this._gridDisplay.updateFlagsLeft(this._mineCount - this._flagsPlaced);
+    this._cellGridInfo.updateFlagsLeft(this._mineCount - this._flagsPlaced);
     if (this._isPlayOver()) {
       alert("END");
       this._handleLevelPlayed(220);
@@ -82,10 +82,10 @@ class PlayLevel {
   _handleMineCell(event) {
     alert("Mine");
     this._cellDatabase.updateMines();
-    this._grid.displayMines(this._cellDatabase.mineIds);
+    this._cellGrid.displayMines(this._cellDatabase.mineIds);
     this._cellDatabase.getFlaggedCellData().forEach(el => console.log(el.id));
-    this._grid.gridHTML.removeEventListener("click", this._cellHandler);
-    this._grid.gridHTML.removeEventListener("contextmenu", this._flagHandler);
+    this._cellGrid.cellGridHTML.removeEventListener("click", this._cellHandler);
+    this._cellGrid.cellGridHTML.removeEventListener("contextmenu", this._flagHandler);
     this._handleLevelPlayed(220);
   }
 
@@ -110,7 +110,7 @@ class PlayLevel {
   }
 
   _handleDisplayCell(id, value) {
-    this._grid.displayCellById(id, value);
+    this._cellGrid.displayCellById(id, value);
     this._cellDatabase.updateVisibleCellIds(id);
   }
 }

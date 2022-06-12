@@ -1,14 +1,14 @@
-import GridCell from "./GridCell.js";
+import Cell from "./Cell.js";
 
-class Grid {
+class CellGrid {
   constructor(cellIds, gridSize) {
     this._cellDictionary = {};
-    this._gridHTML = this._createGridHTML(gridSize);
+    this._cellGridHTML = this._createCellGridHTML(gridSize);
     this._createCellDictionary(cellIds);
   }
 
-  get gridHTML() {
-    return this._gridHTML;
+  get cellGridHTML() {
+    return this._cellGridHTML;
   }
 
   getCellById(id) {
@@ -32,13 +32,13 @@ class Grid {
 
   _createCellDictionary(cellIds) {
     cellIds.forEach(id => {
-      const cell = new GridCell(id);
+      const cell = new Cell(id);
       this._cellDictionary[id] = cell;
-      this._gridHTML.appendChild(cell.cellHTML);
+      this._cellGridHTML.appendChild(cell.cellHTML);
     });
   }
 
-  _createGridHTML(gridSize) {
+  _createCellGridHTML(gridSize) {
     const grid = document.createElement("div");
     grid.classList.add("grid");
     grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
@@ -50,4 +50,4 @@ class Grid {
   }
 }
 
-export default Grid;
+export default CellGrid;

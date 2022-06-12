@@ -1,6 +1,6 @@
 import Colors from "../../utilities/Colors.js";
 
-class GridCell {
+class Cell {
   constructor(id) {
     this._id = id;
     this._cellHTML = document.createElement("div");
@@ -72,4 +72,4 @@ class GridCell {
   }
 }
 
-export default GridCell;
+export default Cell;
