@@ -3,10 +3,10 @@ import GridDisplay from "../views/cell/GridDisplay.js";
 import Grid from "../views/cell/Grid.js";
 
 class PlayLevel {
-  constructor(mineCount, gridSize, handleLevelPlayed) {
+  constructor(mineCount, gridSize, handleLevelPlayed, playerHTML) {
     this._mineCount = mineCount;
     this._cellTotal = gridSize * gridSize;
-    this._display = new GridDisplay(mineCount, this._cellTotal);
+    this._gridDisplay = new GridDisplay(mineCount, this._cellTotal);
     this._cellDatabase = new CellDatabase(mineCount, gridSize);
     this._grid = new Grid(this._cellDatabase.getAllCellIds(), gridSize);
     this._target = document.body;
@@ -15,11 +15,13 @@ class PlayLevel {
     this._cellHandler = this._handleRevealCell.bind(this);
     this._flagHandler = this._handleFlagCell.bind(this);
     this._handleLevelPlayed = handleLevelPlayed;
+    this._playerHTML = playerHTML;
   }
 
   display() {
-    this._target.appendChild(this._display.displayHTML);
+    this._target.appendChild(this._gridDisplay.displayHTML);
     this._target.appendChild(this._grid.gridHTML);
+    this._target.appendChild(this._playerHTML);
     this._grid.gridHTML.addEventListener("click", this._cellHandler);
     this._grid.gridHTML.addEventListener("contextmenu", this._flagHandler);
   }
@@ -37,11 +39,11 @@ class PlayLevel {
 
     this._handleDisplayCell(id, this._cellDatabase.getCellValueById(id));
     this._handleSurroundingCells(id);
-    this._display.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
+    this._gridDisplay.updateCellsLeft(this._cellDatabase.visibleCellIds.size);
 
     if (this._isPlayOver()) {
       alert("END");
-      this._handleLevelPlayed();
+      this._handleLevelPlayed(220);
     }
   }
 
@@ -64,10 +66,10 @@ class PlayLevel {
     }
 
     cellData.toggleIsFlagged();
-    this._display.updateFlagsLeft(this._mineCount - this._flagsPlaced);
+    this._gridDisplay.updateFlagsLeft(this._mineCount - this._flagsPlaced);
     if (this._isPlayOver()) {
       alert("END");
-      this._handleLevelPlayed();
+      this._handleLevelPlayed(220);
     }
   }
 
@@ -84,6 +86,7 @@ class PlayLevel {
     this._cellDatabase.getFlaggedCellData().forEach(el => console.log(el.id));
     this._grid.gridHTML.removeEventListener("click", this._cellHandler);
     this._grid.gridHTML.removeEventListener("contextmenu", this._flagHandler);
+    this._handleLevelPlayed(220);
   }
 
   _handleSurroundingCells(id) {
