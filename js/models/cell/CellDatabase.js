@@ -35,6 +35,23 @@ class CellDatabase {
     return Object.values(this._cellDataDictionary).filter(cell => cell.isFlagged && cell.hasMine);
   }
 
+  getCellTotal() {
+    const cells = Object.values(this._cellDataDictionary);
+
+    const total = cells.reduce((acc, cur) => {
+      switch (true) {
+        case cur.hasMine && cur.isFlagged:
+          return acc + this._gridSize / 10 * this._mineCount;
+        case cur.isVisible:
+          return acc + this._gridSize / 10 * cur.value;
+        default:
+          return acc;
+      }
+    }, 0);
+
+    return total;
+  }
+
   isMineCell(id) {
     return this._cellDataDictionary[id].hasMine;
   }

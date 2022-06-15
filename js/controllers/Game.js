@@ -23,9 +23,11 @@ class Game {
 
   handleLevelPlayed(experience) {
     this._player.handleGameEnd(experience);
-    this._target.innerHTML = "";
-    this._currentDisplay = new SelectLevel(this.handleLevelSelected.bind(this));
-    this._currentDisplay.display();
+    setTimeout(() => {
+      this._target.innerHTML = "";
+      this._currentDisplay = new SelectLevel(this.handleLevelSelected.bind(this));
+      this._currentDisplay.display();
+    }, 2000);
   }
 }
 

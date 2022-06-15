@@ -9,7 +9,7 @@ class Player {
 
   handleGameEnd(experience) {
     this._playerData.gainExperience(experience);
-    this._playerDisplay.updateDisplay(this._playerData.level, this._playerData.experience);
+    this._playerDisplay.updateDisplay(this._playerData.level, this._playerData.getExperience());
   }
 
   getPlayerDisplayHTML() {

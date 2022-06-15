@@ -2,6 +2,7 @@ class PlayerData {
   constructor(level = 1, experience = 0, coins = 0) {
     this._level = level;
     this._experience = experience;
+    this._goal = this._level * 100 * 1.25;
     this._coins = coins;
   }
 
@@ -9,20 +10,23 @@ class PlayerData {
     return this._level;
   }
 
-  get experience() {
-    return this._experience;
+  getExperience() {
+    return { current: this._experience, goal: this._goal };
   }
 
-  gainExperience(experience) {
+  gainExperience(experience = 0) {
     this._experience += experience;
-    while (this._experience > 100) {
-      this._incrementLevel();
-      this._experience -= 100;
+
+    if (this._experience > this._goal) {
+      this._experience -= this._goal;
+      this._levelUp();
+      this.gainExperience();
     }
   }
 
-  _incrementLevel() {
+  _levelUp() {
     this._level++;
+    this._goal = this._level * 100 * 1.25;
   }
 
   getAllFields() {

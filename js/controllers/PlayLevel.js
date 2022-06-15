@@ -86,7 +86,7 @@ class PlayLevel {
     this._cellDatabase.getFlaggedCellData().forEach(el => console.log(el.id));
     this._cellGrid.cellGridHTML.removeEventListener("click", this._cellHandler);
     this._cellGrid.cellGridHTML.removeEventListener("contextmenu", this._flagHandler);
-    this._handleLevelPlayed(220);
+    this._handleLevelPlayed(this._cellDatabase.getCellTotal());
   }
 
   _handleSurroundingCells(id) {
